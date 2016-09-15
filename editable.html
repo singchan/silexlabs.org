@@ -1,0 +1,261 @@
+<head>
+	<title>Silex Labs foundation</title>
+	<meta charset="UTF-8">
+	<meta name="generator" content="Silex v2.0"> <!-- leave this for stats -->
+	<script type="text/javascript" src="http://static.silex.me/2.2/jquery.js"></script>
+	<script type="text/javascript" src="http://static.silex.me/2.2/jquery-ui.js"></script>
+	<script type="text/javascript" src="http://static.silex.me/2.2/jquery.ui.touch-punch.min.js"></script>
+	<script type="text/javascript" src="http://static.silex.me/2.2/pageable.js"></script>
+	<script type="text/javascript" src="http://static.silex.me/2.2/front-end.js"></script>
+	<!-- Normalize -->
+	<link href="http://static.silex.me/2.2/normalize.css" rel="stylesheet">
+	<!-- Silex style -->
+	<link href="http://static.silex.me/2.2/front-end.css" rel="stylesheet">
+
+	<style type="text/css" class="silex-style">.paged-element{
+    display: initial;
+}
+.editable-style.paged-element.paged-element-hidden{
+    left: -15000 !important;
+}
+/* define a style for Title, Headings and Normal texts */
+.heading1,
+.heading2,
+.heading3,
+.normal {
+  color: #6E6E7A;
+  font-family: verdana, arial;
+	margin: 0;
+    font-family: 'Open Sans', X-LocaleSpecific, sans-serif;
+}
+.normal{
+    font-size: 14px;
+    line-height: 21px;
+}
+/* title style */
+.title {
+    font-family: verdana, arial;
+    font-size: 45px;
+    line-height: 80px;
+    text-align: center;
+}
+.heading2{
+    letter-spacing: -0.025em;
+    font-weight: 100;
+}
+/* website text styles */
+.nav .normal{
+    text-transform: uppercase;
+    color: #484848;
+    font-weight: normal;
+    font-size: 13px;
+    font-family: 'Open Sans',X-LocaleSpecific,sans-serif;
+}
+/* website layout styles */
+.locked .ui-resizable-handle{
+    display: none;
+}
+.full-width-no-margin{
+    width: 100% !important;
+}
+.full-width{
+    left: 50px !important;
+    right: 50px !important;
+    width: auto !important;
+    width: initial !important;
+}
+.half-width{
+    width: 40% !important;
+}
+.right{
+    right: 50 !important;
+    left: auto !important;
+    left: initial !important;
+}
+.left{
+    left: 50 !important;
+    right: auto !important;
+    right: initial !important;
+}
+.bottom{
+    bottom: 0 !important;
+    height: auto !important;
+    height: initial !important;
+}
+/* slides style */
+.silex-slide .normal {
+    color: #FF3200;
+}
+.accordion .normal {
+    font-size: 20px;
+}
+/* content style */
+.content-text .heading2{
+    line-height: 60px;
+}
+/* *************************** */
+/* github issues */
+/*
+.github-issues .silex-element-content {
+    overflow: auto;
+}*/
+.github-issues ul {
+  margin: 0;
+  padding: 0;
+}
+.github-issues li {
+  list-style-type: none;
+  margin: 0;
+  padding: 3px;
+  border-bottom: 1px solid #cccccc;
+  font-size: 14px;
+  line-height: 19px;
+}
+.github-issues li a {
+  text-decoration: none;
+  color: black;
+}
+.github-issues-image ul {
+  text-align: center;
+}
+.github-issues-image li {
+  display: inline;
+}
+.github-issues-image img {
+  max-width: 47%;
+  border-radius: 5px;
+}
+.github-issues.github-issues-white *{
+  color: white;
+}
+.github-issues.github-issues-white li {
+    border-bottom-color: #999999;
+}
+.github-issues.github-issues-image li {
+    border-bottom: none;
+}
+
+ /************************************************\
+|  Accordion plugin                                |
+|  Based on http://www.armagost.com/zaccordion/    |
+ \************************************************/
+/* style of the cells */
+.accordion > .editable-style {
+    box-shadow: -6px 0 10px -4px rgba(0,0,0,0.5);
+}
+/* style when editing in Silex */
+body.editable-plugin-created .accordion{
+    overflow-y: auto;
+}
+body.editable-plugin-created .accordion > .editable-style {
+    height: 100% !important;
+    width: 75% !important;
+    top: auto !important;
+    left: auto !important;
+    top: initial !important;
+    left: initial !important;
+    position: relative !important;
+    padding: 0px !important;
+}
+/***********************************
+    Notice style widget
+************************************/
+.notice:before {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-color: transparent #822727 #822727 transparent;
+    border-style: solid;
+    border-width: 10px;
+    content: "";
+}</style>
+  <script type="text/javascript" class="silex-script"> /************************************************\
+|  Accordion plugin                                |
+|  Based on http://www.armagost.com/zaccordion/    |
+ \************************************************/
+document.write('<scr'+'ipt type="text/javascript" src="js/jquery.zaccordion.min.js"></scr'+'ipt>');
+$(function(){
+    $(".accordion").each(function(){
+        $(this).zAccordion({
+        	timeout: 4000,
+        	slideWidth: Math.round($(this).width() * .8),
+        	width: Math.round($(this).width()),
+        	height: Math.round($(this).height())
+        });
+    });
+});
+////////////////////////////////////
+// github issues
+var widgetScriptUrl = 'js/widgets.js';
+if(typeof(Worker) !== 'undefined'){
+  // web workers supported
+  // create the worker
+  var worker = new Worker(widgetScriptUrl);
+  // define silex_github_widget
+  window.silex_github_widget = function (containerSelector, labels, imageMode) {
+    $(containerSelector).append('<p class="loading">Loading...</p>');
+    worker.postMessage({
+      operation: 'silex_github_widget',
+      selector: containerSelector,
+      labels: labels,
+      imageMode: imageMode
+    });
+  };
+  // define silex_rss_widget
+  window.silex_rss_widget = function (containerSelector, feedUrl, count) {
+    $(containerSelector).append('<p class="loading">Loading...</p>');
+    worker.postMessage({
+      operation: 'silex_rss_widget',
+      selector: containerSelector,
+      url: feedUrl,
+      count: count
+    });
+  }
+  // result of the web worker calls
+  worker.onmessage = function (event) {
+    $(event.data.selector+' p.loading').remove();
+    $(event.data.selector).append(event.data.html);
+  };
+}
+else{
+  // no web workers, so load the script
+  if (typeof console !== "undefined") console.error('NO WEBWORKER');
+  document.write('<script src="'+widgetScriptUrl+'"></'+'script>')
+}
+
+</script>
+<meta name="publicationPath" content="/api/1.0/dropbox/exec/put//fdt-workspace/sites-silex/www.silexlabs.org"><style id="current-page-style">.page-projects{display:inherit; }</style></head>
+<body style="cursor: auto; background-color: rgb(245, 241, 232);" data-silex-type="container" class="silex-runtime">
+	<a id="page-home" data-silex-type="page" class="page-element">Home</a>
+	<div class="editable-style container-element background" data-silex-type="container" style="top: 5px; left: 55px; width: 960px; height: 931px; position: absolute; background-color: transparent;">
+	<div data-silex-type="container" class="editable-style container-element  paged-element page-home full-width-no-margin" style="height: 420px; width: 960px; top: 225px; left: 0px; position: absolute; background-color: transparent;"><div data-silex-type="container" class="editable-style container-element accordion full-width-no-margin" style="height: 356px; width: 920px; top: 15px; left: 0px; position: absolute; background-color: rgb(0, 0, 0);"><div data-silex-type="container" class="editable-style container-element silex-slide" style="height: 373px; width: 504px; top: 0px; left: 0px; position: absolute; background-color: rgb(0, 155, 255);"><div data-silex-type="image" class="editable-style image-element" style="height: 190px; width: 316.09865470852px; top: 30px; left: 81px; position: absolute;" data-silex-href="http://www.silex.me"><img src="assets/macbook-silex.png" class="silex-element-content" style="width: 100%; height: 100%;"></div><div data-silex-type="container" class="editable-style container-element full-width-no-margin" style="height: 103px; width: 686px; top: 253px; left: 0px; position: absolute; background-color: rgb(255, 255, 255);"><div data-silex-type="text" class="editable-style text-element" style="height: 93px; width: 288px; top: 25px; left: 92px; position: absolute;" data-silex-href="http://www.silex.me"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><div style="text-align: center;">Silex, free website builder&nbsp;</div><div style="text-align: center;">in the cloud</div></div></div></div><div data-silex-type="image" class="editable-style image-element" style="height: 383px; width: 313px; top: 17px; left: 374px; position: absolute;" data-silex-href="http://www.silex.me"><img src="assets/geek-image.png" class="silex-element-content" style="width: 100%; height: 100%;"></div></div><div data-silex-type="container" class="editable-style container-element" style="height: 380px; width: 462px; top: 356px; left: 0px; position: absolute; background-color: rgb(255, 77, 77);"><div data-silex-type="image" class="editable-style image-element" style="height: 395px; width: 599.651810584958px; top: -8px; left: 80px; position: absolute;" data-silex-href="http://www.silexlabs.org/amfphp/"><img src="assets/amf-php-schema3-sans-fond.jpg" class="silex-element-content" style="width: 100%; height: 100%;"></div></div><div data-silex-type="container" class="editable-style container-element" style="height: 380px; width: 465px; top: 11px; left: 1058px; position: absolute; background-color: rgb(245, 130, 32);"><div data-silex-type="html" class="editable-style html-element" style="height: 356px; width: 600px; top: 0px; left: 80px; position: absolute; background-color: rgb(255, 255, 255);"><div class="silex-element-content" style="width: 100%; height: 100%;"><iframe width="100%" height="100%" src="http://www.youtube.com/embed/XBMJYpxoP70" frameborder="0" allowfullscreen=""></iframe></div></div></div><div data-silex-type="container" class="editable-style container-element" style="height: 380px; width: 465px; top: 100px; left: 101px; position: absolute; background-color: rgb(165, 223, 21);"><div data-silex-type="html" class="editable-style html-element" style="height: 356px; width: 600px; top: 0px; left: 80px; position: absolute; background-color: rgb(255, 255, 255);"><div class="silex-element-content" style="width: 100%; height: 100%;"><iframe width="100%" height="100%" src="http://www.youtube.com/embed/yTBJOdJryRo?list=UUCfElmI39izfiumyHyehPDw" frameborder="0" allowfullscreen=""></iframe></div></div></div></div><div data-silex-type="image" class="editable-style image-element full-width-no-margin" style="height: 40px; width: 960px; top: 370px; left: 0px; position: absolute;"><img src="assets/box-shadow-960.png" class="silex-element-content" style="width: 100%; height: 100%;"></div></div><div data-silex-type="text" class="editable-style text-element paged-element full-width page-home" style="height: 139px; width: 960px; top: 60px; left: 0px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><header style="text-align: center;"><span style="font-size: 45px;" class="title">We are &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></header><p style="text-align: center;" class="normal"><span class="normal">Silex Labs is a foundation dedicated to helping Free communities.&nbsp;</span></p><p style="text-align: center;" class="normal"><span class="normal">Our main objective is to sustain and expand the Open Source projects, mainly the projects created by our members.</span></p></div></div><div data-silex-type="container" class="editable-style container-element full-width-no-margin nav" style="height: 45px; width: 920px; top: 0px; left: 0px; position: absolute; background-color: transparent;"><div data-silex-type="text" class="editable-style text-element full-width-no-margin" style="height: 24px; width: 920px; top: 5px; left: 0px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><div style="text-align: right;"><a href="#!page-home" class="">Home</a>&nbsp; &nbsp; <a href="#!page-mission" class="">Mission</a>&nbsp; &nbsp;&nbsp;<a href="#!page-projects" class="page-link-active">Projects</a>&nbsp;&nbsp; &nbsp;<a href="#!page-events" class="">Events</a>&nbsp; &nbsp;&nbsp;<a href="#!page-partners" class="">Partners</a>&nbsp;&nbsp; &nbsp;<a href="#!page-get-involved" class="">Get involved</a>&nbsp;&nbsp; &nbsp;</div></div></div></div><div data-silex-type="image" class="editable-style image-element paged-element page-home" style="height: 58px; width: 242px; top: 74px; left: 445px; position: absolute;"><img src="assets/silexlabs-moyen-fond-transparent.png" class="silex-element-content" style="width: 100%; height: 100%;"></div><div data-silex-type="html" class="editable-style html-element paged-element page-home" style="height: 138px; width: 465px; top: 778px; left: 492px; position: absolute; background-color: transparent;"><div class="silex-element-content" style="width: 100%; height: 100%;"><!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/classic-081711.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	#mc_embed_signup{clear:left; color: white; }
+</style>
+<div id="mc_embed_signup">
+<form action="//silexlabs.us7.list-manage.com/subscribe/post?u=fe927d10e2d20f286e59ef0b7&amp;id=2e1b03a5f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+    <div id="mc_embed_signup_scroll">
+
+<div class="mc-field-group">
+	<input type="email" value="" name="EMAIL" class="required email" placeholder="Email Address" id="mce-EMAIL">
+</div>
+	<div id="mce-responses" class="clear">
+		<div class="response" id="mce-error-response" style="display:none"></div>
+		<div class="response" id="mce-success-response" style="display:none"></div>
+	</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_fe927d10e2d20f286e59ef0b7_2e1b03a5f0" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </div>
+</form>
+</div>
+<script type="text/javascript" src="http://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script><script type="text/javascript">(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='MMERGE1';ftypes[1]='text';fnames[2]='MMERGE2';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+<!--End mc_embed_signup--></div></div><div data-silex-type="text" class="editable-style text-element paged-element half-width right page-home" style="height: 39px; width: 470px; top: 720px; left: 490px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><h2 class="heading2" style="text-align: center;"><font color="#ffffff">Subscribe to our news letter</font></h2></div></div><div data-silex-type="text" class="editable-style text-element paged-element half-width page-home" style="height: 38px; width: 210px; top: 720px; left: 0px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><h2 class="heading2" style="text-align: center;"><font color="#ffffff">Latest news</font></h2></div></div><div data-silex-type="html" class="editable-style html-element paged-element half-width github-issues github-issues-white page-home" style="height: 156px; width: 470px; top: 762px; left: 0px; position: absolute; background-color: transparent;"><div class="silex-element-content" style="width: 100%; height: 100%;"><div id="latest-news"></div>
+<script type="text/javascript">
+    silex_rss_widget('#latest-news', 'http://www.silexlabs.org/category/the-blog/feed/', 15);
+</script></div></div><div data-silex-type="image" class="editable-style image-element page-mission paged-element page-projects page-events page-partners page-get-involved" style="height: 58px; width: 242px; top: 64px; left: 0px; position: absolute;"><img src="assets/silexlabs-moyen-fond-transparent.png" class="silex-element-content" style="width: 100%; height: 100%;"></div><div data-silex-type="text" class="editable-style text-element page-mission paged-element full-width" style="height: 100px; width: 100px; top: 1049px; left: 101px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><div>Get involved</div><div>&gt; Volunteer opportunities in a number of different areas</div><div><br></div><div>History</div><div>&gt; Where we come from and how we got to where we are</div><div><br></div><div>Contact</div><div>&gt; Let us know what you think</div><div><br></div><div>Governance</div><div>&gt; Our structure, organization, and the statuses</div></div></div><div data-silex-type="container" class="editable-style container-element    page-mission paged-element page-projects page-events page-partners page-get-involved full-width-no-margin" style="height: 758px; width: 1070px; top: 150px; left: 0px; position: absolute; background-color: rgb(255, 255, 255);"><div data-silex-type="text" class="editable-style text-element full-width page-mission paged-element" style="height: 73px; width: 960px; top: 25px; left: 0px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><header style="text-align: center;"><span style="font-size: 45px;" class="title">Our missions</span></header></div></div><div data-silex-type="text" class="editable-style text-element half-width content-text left page-mission paged-element" style="height: 843px; width: 400px; top: 194px; left: 0px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><h2 class="heading2">Networking</h2>In order to support the developement of Open Source projects, and to encourage people to get involved, we have established a network between multiple Open Source communities by providing means to collaborate. We have created a community around our Open Source projects, which is constantly expanding and it conquers new members coming from different social environments and from different domains (developpers, designers, lawyers, …). <br><ul><li>We are active on social networks like Facebook or Twitter</li><li>We organize afterworks and hackatons at least once a month : see recent updates. (lien vers : articles events)</li></ul><h2 class="heading2">Communication</h2><div>We promote Open Source projects by organizing events on a particular subject and by drafting articles on specialized journals like Arvixe. We consider that communication is one of the best ways to help expanding the Open Source communities. Generally, the Open Source projects cannot evolve mainly because of lack of communication, which in nowadays society has become essential. To remedy this issue, we communicate about Open Source projects :<br><ul><li>Once a year, we organize the international Haxe WordWide Conference (lien vers :page past events)</li><li>After each series of workshop we organize a conference (lien vers : blog outcoming events)</li><li>We publish articles on Arvixe (http://blog.arvixe.com/tag/silex-2/)</li><li>We maintain a communication platform for dedicated projects : (see Silex forum ; Amfphp forum)</li></ul></div></div></div><div data-silex-type="text" class="editable-style text-element half-width right content-text page-mission paged-element" style="height: 843px; width: 400px; top: 95px; left: 546px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><h2 class="heading2">Training</h2><div>Constantly, we organize workshops on a diverse range of topics (free entrance with previous registration). We organize at least one workshop per month about Haxe and Silex, two core projects sustained by the “Silex Labs community”, and a general training session when a new project version is released. These workshops are allowing community members to learn about a particular topic and to be updated with the latest modifications.<br><ul><li>Some workshops are organized in partnership with Multimedia Schools like IESA and Cifacom, who benefit from our experience to integrate basic open source knowledge into their scolarship program. We have established a « Win-Win » relation: our services are appreciated by our partners because we provide free workshops for students or external members, and in return they allow us acces to their conference halls and offer us technical support. Liens vers : Lettres de recommandations de Cifacon / Video interview</li><li>We also organize workshops in partnership with local Clusters for digital contents and services, like Silicon Banlieue (http://www.siliconbanlieue.fr/). The Workshops are open to both members and non-members.</li></ul><h2 class="heading2">Contribute</h2></div><div>You are invited to become a members and get involved if you want to contribute in any way to our community or to benefit from our trainings and workshops. Subscribe to our newsletter to stay in contact.<br><br>How to contribute ? Create documents and tutorials, widgets, contribute code or design templates. Talk about it and show off !<br><br></div><div>To get an inside look you can download the latest end of year statement of Silex Labs non profit organization.<br> </div></div></div><div data-silex-type="text" class="editable-style text-element  full-width page-projects paged-element" style="height: 840px; width: 960px; top: 25px; left: 0px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;"><header style="text-align: center;"><span style="font-size: 45px;" class="title">Powered by Silex Labs</span></header><p class="normal" style="text-align: left;">Silex Labs community of developers and graphic designers is contributing &nbsp;to 3 core projects:</p><p class="normal" style="text-align: left;"><br></p><p class="normal" style="text-align: left;"></p><ul><li><a href="http://www.silex.me/">Silex</a></li><li><a href="http://www.silexlabs.org/amfphp/">Amfphp</a></li><li><a href="http://haxe.org/">Haxe</a></li></ul><p class="normal"></p><p class="normal" style="text-align: left;"><br></p><p class="normal" style="text-align: left;">However, several other projects are powered by Silex Labs, see the <a href="http://silexlabs.github.io">github repositories of Silex Labs</a>&nbsp;for an exhaustive list.</p><p class="normal" style="text-align: left;"><br></p><p class="normal" style="text-align: left;"><br></p><p class="normal" style="text-align: left;"><a href="http://silexlabs2.wordpress.com/core-projects/">http://silexlabs2.wordpress.com/core-projects/</a></p><p class="normal" style="text-align: left;"><br></p></div></div><div data-silex-type="container" class="editable-style container-element notice page-mission paged-element" style="height: 100px; width: 377px; top: 86px; left: -21px; position: absolute; background-color: rgb(255, 77, 77);"></div></div></div>
+
+
+<a id="page-mission" data-silex-type="page" class="page-element">Mission</a><a id="page-projects" data-silex-type="page" class="page-element">Projects</a><a id="page-events" data-silex-type="page" class="page-element">Events</a><a id="page-partners" data-silex-type="page" class="page-element">Partners</a><div data-silex-type="container" class="editable-style container-element full-width-no-margin bottom" style="height: 319px; width: 1071px; top: 944px; left: 0px; position: absolute; background-color: rgb(255, 255, 255);"></div><div data-silex-type="container" class="editable-style container-element paged-element  page-home full-width-no-margin" style="height: 246px; width: 1071px; top: 700px; left: 0px; position: absolute; background-color: rgb(255, 77, 77);"></div><a id="page-get-involved" data-silex-type="page" class="page-element">Get involved</a><div data-silex-type="container" class="editable-style container-element background" style="height: 179px; width: 960px; top: 979px; left: 56px; position: absolute; background-color: transparent;"><div data-silex-type="text" class="editable-style text-element full-width" style="height: 100px; width: 100px; top: 7px; left: 50px; position: absolute;"><div class="silex-element-content normal" style="width: 100%; height: 100%;">Footer here</div></div></div></body>
