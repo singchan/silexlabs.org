@@ -6,7 +6,7 @@ $.widget('silexlabs.pageable', {
     useDeeplink:true,
     pageClass: 'paged-element',
     onPageChanged: null,
-    window: window // useful if you are in an iframe to set window = window.parent
+    window: window // useful if you are in an iframe and want to set window = window.parent
   },
   // _setOption is called for each individual option that is changing
   _setOption: function( key, value ) {
@@ -18,12 +18,14 @@ $.widget('silexlabs.pageable', {
         break;
       case 'currentPage':
       case 'pageClass':
+        this.currentPageChanged = true;
         this.updatePage();
         break;
     }
   },
   _create: function() {
-
+    // store the initial page
+    this.initialPage = this.options.currentPage;
     // mark the body
     $(document.body).addClass('pageable-plugin-created');
     // listen for page change
@@ -32,6 +34,7 @@ $.widget('silexlabs.pageable', {
       $(this.options.window).bind( 'hashchange', this.cbk = function(){that.updatePage()});
     }
     else{
+      // FIXME: this is wrong? it will prevent all links, whereas it should check indexOf('#!')
       this.element.find('a').each(function(){
         $(this).bind('click', function(event){
           event.preventDefault();
@@ -59,9 +62,14 @@ $.widget('silexlabs.pageable', {
   },
   updatePage: function (){
     if(this.options.useDeeplink){
-      if (this.options.window.location.hash && this.options.window.location.hash.indexOf('#!') >= 0)
+      if (this.options.window.location.hash && this.options.window.location.hash.indexOf('#!') >= 0) {
         this.options.currentPage = this.options.window.location.hash;
+      }
+      else if(!this.currentPageChanged) {
+        this.options.currentPage = this.initialPage;
+      }
     }
+    this.currentPageChanged = false;
     if (this.options.currentPage && this.options.currentPage.indexOf('#!') >= 0){
       this.options.currentPage = this.options.currentPage.substr(this.options.currentPage.indexOf('#!') + 2);
     }
